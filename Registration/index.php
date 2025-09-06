@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
 
-// Fetch courses with semester info
 $courses = [];
 $result = $conn->query("
     SELECT c.Code, c.Name, s.id AS semester_id, CONCAT(s.Season, ' ', s.Year) as semester_name 
@@ -15,7 +14,6 @@ if ($result) {
     }
 }
 
-// Fetch all semesters for filtering
 $semesters = [];
 $result = $conn->query("
     SELECT id, CONCAT(Season, ' ', Year) as semester_name 
@@ -206,42 +204,25 @@ if ($result) {
             const code = element.dataset.code;
             const name = element.dataset.name;
             const semester = element.dataset.semester;
-            
-            // Check if already selected and thea if so, remove it
             const existingIndex = selectedCourses.findIndex(course => course.code === code);
             if (existingIndex !== -1) {
-                // Remove from selected courses
                 selectedCourses.splice(existingIndex, 1);
-                
-                // Remove visual selection
                 element.classList.remove('selected');
-                
-                // Update selected panel
                 updateSelectedPanel();
                 return;
             }
-            
-            // Add to selected courses
             selectedCourses.push({code, name, semester});
-            
-            // Mark as selected visually
             element.classList.add('selected');
-            
-            // Update selected panel
             updateSelectedPanel();
         }
 
         function removeCourse(code) {
-            // Remove from array
             selectedCourses = selectedCourses.filter(course => course.code !== code);
-            
-            // Remove visual selection
+
             const courseElement = document.querySelector(`[data-code="${code}"]`);
             if (courseElement) {
                 courseElement.classList.remove('selected');
             }
-            
-            // Update selected panel
             updateSelectedPanel();
         }
 
@@ -274,12 +255,8 @@ if ($result) {
 
         function updateFormData() {
             const form = document.getElementById('registrationForm');
-            
-            // Remove existing course inputs
             const existingInputs = form.querySelectorAll('input[name="course_codes[]"]');
             existingInputs.forEach(input => input.remove());
-            
-            // Add hidden inputs for selected courses
             selectedCourses.forEach(course => {
                 const input = document.createElement('input');
                 input.type = 'hidden';

@@ -21,10 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bind_result($hashedPassword);
         $stmt->fetch();
         if (password_verify($password, $hashedPassword)) {
-            // Login successful - START SESSION
             session_start();
             
-            // Get student ID and store in session
             $stmt2 = $conn->prepare("SELECT Id FROM student WHERE email = ?");
             $stmt2->bind_param("s", $email);
             $stmt2->execute();
@@ -36,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             
             $stmt2->close();
             
-            // Redirect to dashboard or registration
             header("Location: ../Dashboard/index.php");
             exit();
         } else {
@@ -44,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit();
         }
     } else {
-        // Email not found
         header("Location: index.php?error=Invalid+email+or+password");
         exit();
     }

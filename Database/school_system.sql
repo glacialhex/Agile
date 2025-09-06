@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2025 at 05:30 PM
+-- Generation Time: Sep 06, 2025 at 08:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,8 +53,20 @@ CREATE TABLE `regdata` (
   `Id` int(11) NOT NULL,
   `RegId` int(11) NOT NULL,
   `NumberOfCourses` int(11) NOT NULL,
-  `RegisteredAt` int(11) NOT NULL DEFAULT current_timestamp()
+  `RegisteredAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `course_id` int(11) NOT NULL,
+  `grade` varchar(222) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `regdata`
+--
+
+INSERT INTO `regdata` (`Id`, `RegId`, `NumberOfCourses`, `RegisteredAt`, `course_id`, `grade`) VALUES
+(7, 10, 1, '2025-09-06 16:54:28', 0, ''),
+(8, 11, 1, '2025-09-06 17:28:30', 0, ''),
+(9, 12, 1, '2025-09-06 17:39:33', 0, ''),
+(10, 13, 1, '2025-09-06 17:39:33', 0, '');
 
 -- --------------------------------------------------------
 
@@ -67,6 +79,16 @@ CREATE TABLE `registration` (
   `semester_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `registration`
+--
+
+INSERT INTO `registration` (`id`, `semester_id`, `student_id`) VALUES
+(10, 2, 2),
+(11, 2, 2),
+(12, 2, 1),
+(13, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +135,8 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`Id`, `FirstName`, `LastName`, `Email`, `NationalId`, `Age`, `PhonNumber`, `password_hash`, `created_at`) VALUES
-(1, 'Hamada', 'Ezzo', 'hamadaezzo@school.edu', '3061123559147', 14, 1234513992, '$2y$10$y/PwsRFKEcW6j.smlVV8JueVUjg.n.mXb3ZV05vsyhyQ0Rz9d6AqW', '2025-09-06 12:14:32');
+(1, 'Hamada', 'Ezzo', 'hamadaezzo@school.edu', '3061123559147', 14, 1234513992, '$2y$10$y/PwsRFKEcW6j.smlVV8JueVUjg.n.mXb3ZV05vsyhyQ0Rz9d6AqW', '2025-09-06 12:14:32'),
+(2, 'Sarah', 'Ahmed', 'sara@email.com', '30649721945777', 17, 6645157946, '$2y$10$Xv.PdYkQ9rVQxbSLXcb0CejDh0TLLecbt..fv0/qwdEPPmVlC9/bu', '2025-09-06 16:47:36');
 
 --
 -- Indexes for dumped tables
@@ -166,13 +189,13 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `regdata`
 --
 ALTER TABLE `regdata`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `semester`
@@ -184,7 +207,7 @@ ALTER TABLE `semester`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

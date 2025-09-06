@@ -1,6 +1,4 @@
 <?php
-// process_login.php
-// Replace with your actual database connection details
 $servername = "localhost";
 $username_db = "root";
 $password_db = "";
@@ -23,11 +21,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bind_result($hashedPassword);
         $stmt->fetch();
         if (password_verify($password, $hashedPassword)) {
-            // Login successful
-            echo "Login successful!";
-            // Redirect or start session here
+            // Login successful - START SESSION
+            session_start();
+            
+            // Get student ID and store in session
+            $stmt2 = $conn->prepare("SELECT Id FROM student WHERE email = ?");
+            $stmt2->bind_param("s", $email);
+            $stmt2->execute();
+            $stmt2->bind_result($student_id);
+            $stmt2->fetch();
+            
+            $_SESSION['student_id'] = $student_id;
+            $_SESSION['email'] = $email;
+            
+            $stmt2->close();
+            
+            // Redirect to dashboard or registration
+            header("Location: ../Dashboard/index.php");
+            exit();
         } else {
-            // Invalid password
             header("Location: index.php?error=Invalid+email+or+password");
             exit();
         }

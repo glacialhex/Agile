@@ -43,7 +43,6 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-// REMOVED GPA calculation since grades table doesn't exist
 $gpa = 'N/A';
 
 $conn->close();

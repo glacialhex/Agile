@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config/db.php';
 // Fetch courses with semester info
 $courses = [];
 $result = $conn->query("
-    SELECT c.Code, c.Name, CONCAT(s.Season, ' ', s.Year) as semester_name 
+    SELECT c.Code, c.Name, s.id AS semester_id, CONCAT(s.Season, ' ', s.Year) as semester_name 
     FROM course c 
     JOIN semester s ON c.semester_id = s.id 
     ORDER BY c.Code
@@ -171,6 +171,7 @@ if ($result) {
                          data-code="<?php echo htmlspecialchars($course['Code']); ?>"
                          data-name="<?php echo htmlspecialchars($course['Name']); ?>"
                          data-semester="<?php echo htmlspecialchars($course['semester_name']); ?>"
+                         data-semester-id="<?php echo (int)$course['semester_id']; ?>"
                          onclick="addCourse(this)">
                         <strong><?php echo htmlspecialchars($course['Code']); ?></strong> - 
                         <?php echo htmlspecialchars($course['Name']); ?>
@@ -206,7 +207,7 @@ if ($result) {
             const name = element.dataset.name;
             const semester = element.dataset.semester;
             
-            // Check if already selected - if so, remove it
+            // Check if already selected and thea if so, remove it
             const existingIndex = selectedCourses.findIndex(course => course.code === code);
             if (existingIndex !== -1) {
                 // Remove from selected courses
@@ -291,10 +292,9 @@ if ($result) {
         function filterCourses() {
             const filterValue = document.getElementById('semesterFilter').value;
             const courseItems = document.querySelectorAll('.course-item');
-            
+
             courseItems.forEach(item => {
-                const itemSemester = item.dataset.semesterId;
-                
+                const itemSemester = item.dataset.semesterId || '';
                 if (filterValue === '' || itemSemester === filterValue) {
                     item.style.display = 'block';
                 } else {

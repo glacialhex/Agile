@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2025 at 02:01 PM
+-- Generation Time: Sep 06, 2025 at 05:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,8 +31,17 @@ CREATE TABLE `course` (
   `Id` int(11) NOT NULL,
   `Name` varchar(222) NOT NULL,
   `Capacity` int(11) NOT NULL,
-  `Code` varchar(222) NOT NULL
+  `Code` varchar(222) NOT NULL,
+  `semester_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `course`
+--
+
+INSERT INTO `course` (`Id`, `Name`, `Capacity`, `Code`, `semester_id`) VALUES
+(1, 'Mathematics 1', 140, 'MTH 011', 2),
+(2, 'Intro to BioInformatics', 50, 'CSE 224', 2);
 
 -- --------------------------------------------------------
 
@@ -62,20 +71,49 @@ CREATE TABLE `registration` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `semester`
+--
+
+CREATE TABLE `semester` (
+  `id` int(11) NOT NULL,
+  `Season` varchar(222) NOT NULL,
+  `Year` year(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `semester`
+--
+
+INSERT INTO `semester` (`id`, `Season`, `Year`) VALUES
+(1, 'Fall', '2024'),
+(2, 'Spring', '2025'),
+(3, 'Fall', '2025'),
+(4, 'Spring', '2026');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student`
 --
 
 CREATE TABLE `student` (
   `Id` int(11) NOT NULL,
   `FirstName` varchar(244) NOT NULL,
-  `LastName` int(244) NOT NULL,
+  `LastName` varchar(244) NOT NULL,
   `Email` varchar(222) NOT NULL,
-  `NationalId` int(17) NOT NULL,
+  `NationalId` varchar(17) NOT NULL,
   `Age` int(3) NOT NULL,
-  `PhonNumber` int(11) NOT NULL,
+  `PhonNumber` bigint(11) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`Id`, `FirstName`, `LastName`, `Email`, `NationalId`, `Age`, `PhonNumber`, `password_hash`, `created_at`) VALUES
+(1, 'Hamada', 'Ezzo', 'hamadaezzo@school.edu', '3061123559147', 14, 1234513992, '$2y$10$y/PwsRFKEcW6j.smlVV8JueVUjg.n.mXb3ZV05vsyhyQ0Rz9d6AqW', '2025-09-06 12:14:32');
 
 --
 -- Indexes for dumped tables
@@ -102,6 +140,12 @@ ALTER TABLE `registration`
   ADD KEY `student_id` (`student_id`);
 
 --
+-- Indexes for table `semester`
+--
+ALTER TABLE `semester`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `student`
 --
 ALTER TABLE `student`
@@ -116,7 +160,7 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `regdata`
@@ -131,10 +175,16 @@ ALTER TABLE `registration`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `semester`
+--
+ALTER TABLE `semester`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
